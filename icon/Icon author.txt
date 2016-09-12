@@ -1,6 +1,5 @@
 ﻿Object.png
 Author : http://www.aha-soft.com/
-
 From : http://www.iconarchive.com/show/software-icons-by-aha-soft/objects-icon.html
 
 XML.png
