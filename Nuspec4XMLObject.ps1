@@ -1,4 +1,4 @@
-﻿nuspec 'XMLObject' '1.0.0.0' {
+﻿nuspec 'XMLObject' '1.0.0' {
    properties @{
         Authors='Dardenne Laurent'
         Description="Management of class linked to an XSD schema."
