@@ -1,5 +1,4 @@
-﻿
-nuspec 'XMLObject' '1.0.0.0' {
+﻿nuspec 'XMLObject' '1.0.0.0' {
    properties @{
         Authors='Dardenne Laurent'
         Description="Management of class linked to an XSD schema."
@@ -11,11 +10,11 @@ nuspec 'XMLObject' '1.0.0.0' {
         projectUrl='https://github.com/LaurentDardenne/XMLObject'
         iconUrl='https://github.com/LaurentDardenne/XMLObject/blob/master/icon/XMLObjects.png'
         releaseNotes=''
-        tags=$null
+        tags='XML XSD'
    }
    
    files {
     file -src "G:\PS\XMLObject\XMLObject.psd1"
     file -src "G:\PS\XMLObject\XMLObject.psm1"
    }
-}|Save-Nuspec -FileName "$XMLObjectDelivery\XMLObject.nuspec" -nobom
+}|Save-Nuspec -FileName "$XMLObjectDelivery\XMLObject.nuspec"
