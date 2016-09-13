@@ -26,7 +26,7 @@ function Test-Xml {
         #Code de l'eventHandler par défaut qui écrit sur la console via Write-Error
        $ValidationEventHandler=@'
          param($sender, $eventArgs)
-    	   Write-Debug "Erreur validation"
+    	   Write-Debug "Validation error"
            $Message=$eventArgs.Exception.InnerException.Message
            if ($null -eq $Message) 
            {$eventArgs.Exception.Message}
@@ -44,9 +44,9 @@ function Test-Xml {
     }
     
     if (-not (Test-Path "$FileName"))
-     { throw (new-Object ArgumentException("Le fichier XML n'existe pas : $FileName"))}
+     { throw (new-Object ArgumentException("The xml file do not exist : $FileName"))}
     elseif (-not (Test-Path "$SchemaFile"))
-     { throw (new-object ArgumentException("Le fichier de sch�ma n'existe pas : $SchemaFile"))}
+     { throw (new-object ArgumentException("The schema file do not exist : $SchemaFile"))}
 
     $reader=$null
 	$script:isValid=$true
@@ -250,7 +250,9 @@ Function ConvertTo-XML {
      
       [Parameter(Position=3, Mandatory=$true)]
       [ValidateNotNullOrEmpty()]
-     [string] $targetNamespace
+     [string] $targetNamespace,
+
+     [switch] $NoBom
  )    
    
     if ( $DebugPreference -ne "SilentlyContinue")  
@@ -263,7 +265,16 @@ Function ConvertTo-XML {
       $ns.Add("", $targetNamespace ) 
        #Create an XmlTextWriter using a FileStream.
       $FileStream = new-Object System.IO.FileStream($Filename, [System.IO.FileMode]::Create);
-      $Writer = new-Object System.Xml.XmlTextWriter($FileStream, [System.Text.Encoding]::UTF8)
+      if ($NoBom) #todo
+      { 
+         $Encoding=[System.Text.UTF8Encoding]::New($false)
+         $Writer = new-Object System.Xml.XmlTextWriter($FileStream, $Encoding) 
+      }
+      else
+      {
+        $Writer = new-Object System.Xml.XmlTextWriter($FileStream, [System.Text.Encoding]::UTF8)                  
+      }
+      
        #Format le fichier XML
       $Writer.Formatting = [System.Xml.Formatting]::Indented
       $Writer.Indentation = 2
@@ -296,11 +307,11 @@ function Test-XSDBusinessRules {
   $Rules.GetEnumerator()|
   Foreach {
     #On lie explicitement le scriptblock dans la portée du module,
-    #sinon la variable $Data est recherchée dans la port�e de l'appelant ce 
+    #sinon la variable $Data est recherchée dans la portée de l'appelant ce 
     #qui génèrerait une erreur : VariableIsUndefined    
     if ((&($MyInvocation.MyCommand.ScriptBlock.Module.NewBoundScriptBlock($_.Value))) -eq $false) 
     {
-       Write-Error "Erreur de validation pour la r�gle : $($_.Key)"
+       Write-Error "Validation error for the rule : $($_.Key)"
        $ValidationErrors++
     } 
   }
