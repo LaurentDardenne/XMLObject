@@ -1,4 +1,6 @@
-﻿nuspec 'XMLObject' '1.0.0' {
+﻿$ModuleVersion=(Import-ManifestData "$XMLObjectVcs\XMLObject.psd1").ModuleVersion
+
+nuspec 'XMLObject' $ModuleVersion {
    properties @{
         Authors='Dardenne Laurent'
         Description="Management of class linked to an XSD schema."
@@ -9,7 +11,7 @@
         licenseUrl='https://creativecommons.org/licenses/by-nc-sa/4.0/'
         projectUrl='https://github.com/LaurentDardenne/XMLObject'
         iconUrl='https://github.com/LaurentDardenne/XMLObject/blob/master/icon/XMLObjects.png'
-        releaseNotes=''
+        releaseNotes="$(Get-Content "$XMLObjectVcs\CHANGELOG.md" -raw)"
         tags='XML XSD'
    }
    
