@@ -1,6 +1,11 @@
-﻿$ModuleVersion=(Import-ManifestData "$XMLObjectVcs\XMLObject.psd1").ModuleVersion
+﻿
+if(! (Test-Path variable:XMLObjectVcs))
+{
+  throw "The project configuration is required, see the 'XMLObject_ProjectProfile.ps1' script." 
+}
+$ModuleVersion=(Import-ManifestData "$XMLObjectVcs\XMLObject.psd1").ModuleVersion
 
-nuspec 'XMLObject' $ModuleVersion {
+$Result=nuspec 'XMLObject' $ModuleVersion {
    properties @{
         Authors='Dardenne Laurent'
         Description="Management of class linked to an XSD schema."
@@ -19,4 +24,7 @@ nuspec 'XMLObject' $ModuleVersion {
     file -src "G:\PS\XMLObject\XMLObject.psd1"
     file -src "G:\PS\XMLObject\XMLObject.psm1"
    }
-}|Save-Nuspec -FileName "$XMLObjectDelivery\XMLObject.nuspec"
+}
+
+$Result|
+  Push-nupkg -Path $XmlObjectDelivery -Source 'https://www.myget.org/F/ottomatt/api/v2/package'
