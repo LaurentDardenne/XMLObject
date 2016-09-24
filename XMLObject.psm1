@@ -1,4 +1,4 @@
-#  Contient des fonctions d'aide à la construction et   
+﻿#  Contient des fonctions d'aide à la construction et   
 #  à la vérification de fichiers XML et XSD.
 
 function Test-Xml { 
@@ -241,9 +241,11 @@ Function ConvertTo-XML {
      [Parameter(Mandatory=$true,ValueFromPipeline=$true)] 
      [ValidateNotNullOrEmpty()]
     $Object,
+    
      [Parameter(Position=1, Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
      [ValidateNotNullOrEmpty()]
     $FileName,
+    
      [Parameter(Position=2, Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
      [ValidateNotNullOrEmpty()]
     [Type] $SerializedType,
@@ -256,8 +258,12 @@ Function ConvertTo-XML {
  )    
    
     if ( $DebugPreference -ne "SilentlyContinue")  
-     { Write-Debug ("Call : {0}" -F $MyInvocation.InvocationName) }
-        
+    { Write-Debug ("Call : {0}" -F $MyInvocation.InvocationName) }
+
+    $ParentPath=Split-Path $FileName -parent
+    if (-not (Test-Path $ParentPath))
+    { throw (new-Object ArgumentException("The destination directory do not exist : $ParentPath")) }
+
     try {
       $Serializer = new-Object System.Xml.Serialization.XmlSerializer($SerializedType)
       $ns = new-Object System.Xml.Serialization.XmlSerializerNamespaces
