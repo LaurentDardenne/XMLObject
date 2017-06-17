@@ -1,6 +1,15 @@
 ﻿# XMLObject
 Convert a xml file to a C# class and vice versa.
 
+To install this module :
+```Powershell
+$PSGalleryPublishUri = 'https://www.myget.org/F/ottomatt/api/v2/package'
+$PSGallerySourceUri = 'https://www.myget.org/F/ottomatt/api/v2'
+
+Register-PSRepository -Name OttoMatt -SourceLocation $PSGallerySourceUri -PublishLocation $PSGalleryPublishUri #-InstallationPolicy Trusted
+Install-Module XMLObject -Repository OttoMatt
+```
+
 Need an xsd file and the dotnet tools xsd.exe.
 ```powershell
 #First step
